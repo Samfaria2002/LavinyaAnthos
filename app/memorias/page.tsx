@@ -1,27 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Camera, Flower2 } from "lucide-react";
 
-type Memory = { id: number; title: string; description: string; imageUrl: string | null; eventDate: string | null };
+const memories = [
+  { id: 1, title: "O começo de FLORESCER", description: "Entre estudos, flores e muitas ideias, começou a tomar forma uma coleção sobre tempo, fé e crescimento.", imageUrl: "/florescer-jardim.jpg", date: "17 de outubro de 2026" },
+  { id: 2, title: "Detalhes que contam histórias", description: "Texturas, cores e pequenos detalhes do processo criativo que deram vida às obras.", imageUrl: "/florescer-campo.jpg", date: "17 de outubro de 2026" },
+  { id: 3, title: "Um encontro para guardar", description: "Este espaço será dedicado às fotografias e aos relatos compartilhados durante a exposição.", imageUrl: null, date: "FLORESCER · 2026" },
+];
 
 export default function MemoriasPage() {
-  const [memories, setMemories] = useState<Memory[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    fetch("/api/memories", { cache: "no-store" })
-      .then(async (response) => {
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Não foi possível carregar as memórias.");
-        setMemories(data.memories ?? []);
-      })
-      .catch((reason: unknown) => setError(reason instanceof Error ? reason.message : "Não foi possível carregar as memórias."))
-      .finally(() => setLoading(false));
-  }, []);
-
   return (
     <main className="site-root feature-page memories-page">
       <header className="feature-header">
@@ -35,11 +23,11 @@ export default function MemoriasPage() {
       </section>
       <section className="memories-content">
         <div className="memories-heading"><span>02 / MEMÓRIAS</span><h2>Um álbum de momentos</h2></div>
-        {loading ? <p className="empty-state">Reunindo as memórias...</p> : error ? <p className="empty-state" role="status">{error}</p> : memories.length === 0 ? <div className="memories-empty"><Flower2 size={28} /><h3>As memórias estão criando raízes.</h3><p>Em breve, este espaço poderá receber fotografias, relatos e momentos especiais da exposição.</p></div> :
-          <div className="memories-grid">{memories.map((memory) => <article className="memory-card" key={memory.id}>
-            {memory.imageUrl ? <img src={memory.imageUrl} alt={memory.title} loading="lazy" /> : <div className="memory-placeholder"><Flower2 size={32} /><span>FLORESCER · 2026</span></div>}
-            <div className="memory-copy">{memory.eventDate && <small>{new Date(memory.eventDate).toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })}</small>}<h3>{memory.title}</h3><p>{memory.description}</p></div>
-          </article>)}</div>}
+        <p className="privacy-note">Prévia visual com conteúdo ilustrativo. Os registros reais poderão ser conectados ao banco de dados futuramente.</p>
+        <div className="memories-grid">{memories.map((memory) => <article className="memory-card" key={memory.id}>
+          {memory.imageUrl ? <img src={memory.imageUrl} alt={memory.title} loading="lazy" /> : <div className="memory-placeholder"><Flower2 size={32} /><span>FLORESCER · 2026</span></div>}
+          <div className="memory-copy"><small>{memory.date}</small><h3>{memory.title}</h3><p>{memory.description}</p></div>
+        </article>)}</div>
       </section>
       <footer className="site-footer"><span>ÁNTHOS · FLORESCER</span><span>Lavinya Chaves · 2026</span></footer>
     </main>
