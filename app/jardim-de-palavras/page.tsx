@@ -1,10 +1,10 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Flower2, Send } from "lucide-react";
 
-type GardenMessage = { id: number; message: string; flower: string; createdAt: string };
+type GardenMessage = { id: number; message: string; flower: string };
 const flowers = [
   { id: "margarida", label: "Margarida", symbol: "✿" },
   { id: "girassol", label: "Girassol", symbol: "✺" },
@@ -14,49 +14,28 @@ const flowers = [
   { id: "calendula", label: "Calêndula", symbol: "✼" },
 ];
 
+const sampleMessages: GardenMessage[] = [
+  { id: 1, message: "Que a gente nunca perca a coragem de florescer de novo.", flower: "girassol" },
+  { id: 2, message: "Que a beleza das pequenas coisas continue nos lembrando do cuidado de Deus.", flower: "margarida" },
+  { id: 3, message: "Toda estação tem seu tempo. Que a esperança sempre encontre espaço.", flower: "lavanda" },
+];
+
 export default function JardimDePalavrasPage() {
   const [message, setMessage] = useState("");
   const [flower, setFlower] = useState("margarida");
-  const [messages, setMessages] = useState<GardenMessage[]>([]);
+  const [messages, setMessages] = useState<GardenMessage[]>(sampleMessages);
   const [status, setStatus] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [sending, setSending] = useState(false);
 
-  async function loadMessages() {
-    try {
-      const response = await fetch("/api/garden", { cache: "no-store" });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Não foi possível carregar o jardim.");
-      setMessages(data.messages ?? []);
-      setStatus("");
-    } catch (error) {
-      setStatus(error instanceof Error ? error.message : "Não foi possível carregar o jardim.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => { void loadMessages(); }, []);
-
-  async function submitMessage(event: FormEvent<HTMLFormElement>) {
+  function submitMessage(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSending(true);
-    setStatus("");
-    try {
-      const response = await fetch("/api/garden", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message, flower }),
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Não foi possível enviar sua palavra.");
-      setMessage("");
-      setStatus(data.message || "Sua palavra foi recebida.");
-    } catch (error) {
-      setStatus(error instanceof Error ? error.message : "Não foi possível enviar sua palavra.");
-    } finally {
-      setSending(false);
+    const trimmed = message.trim();
+    if (trimmed.length < 3) {
+      setStatus("Escreva pelo menos 3 caracteres para plantar sua palavra.");
+      return;
     }
+    setMessages((current) => [{ id: Date.now(), message: trimmed, flower }, ...current]);
+    setMessage("");
+    setStatus("Sua palavra foi adicionada à prévia visual. Ela não foi enviada a um servidor.");
   }
 
   return (
@@ -79,17 +58,16 @@ export default function JardimDePalavrasPage() {
           <div className="flower-options">
             {flowers.map((item) => <button type="button" key={item.id} className={flower === item.id ? "flower-option selected" : "flower-option"} onClick={() => setFlower(item.id)} aria-pressed={flower === item.id}><span>{item.symbol}</span>{item.label}</button>)}
           </div>
-          <button className="feature-submit" type="submit" disabled={sending}><Send size={16} /> {sending ? "Enviando..." : "Plantar minha palavra"}</button>
-          <p className="privacy-note">As mensagens passam por aprovação antes de aparecer publicamente.</p>
+          <button className="feature-submit" type="submit"><Send size={16} /> Plantar minha palavra</button>
+          <p className="privacy-note">Modo de demonstração: as mensagens aparecem apenas enquanto esta página estiver aberta.</p>
           {status && <p className="feature-status" role="status">{status}</p>}
         </form>
         <div className="garden-wall">
-          <div className="garden-wall-heading"><span>01 / COMUNIDADE</span><h2>Palavras que ficam</h2><p>Mensagens deixadas por quem passou por aqui.</p></div>
-          {loading ? <p className="empty-state">Preparando o jardim...</p> : messages.length === 0 ? <p className="empty-state">As primeiras palavras aprovadas aparecerão aqui. Que tal plantar a sua?</p> :
-            <div className="garden-message-grid">{messages.map((item) => {
-              const selectedFlower = flowers.find((entry) => entry.id === item.flower) ?? flowers[0];
-              return <article className="garden-note" key={item.id}><span className="garden-note-flower">{selectedFlower.symbol}</span><p>“{item.message}”</p><small>{selectedFlower.label}</small></article>;
-            })}</div>}
+          <div className="garden-wall-heading"><span>01 / COMUNIDADE</span><h2>Palavras que ficam</h2><p>Mensagens que inspiram quem passa por aqui.</p></div>
+          <div className="garden-message-grid">{messages.map((item) => {
+            const selectedFlower = flowers.find((entry) => entry.id === item.flower) ?? flowers[0];
+            return <article className="garden-note" key={item.id}><span className="garden-note-flower">{selectedFlower.symbol}</span><p>“{item.message}”</p><small>{selectedFlower.label}</small></article>;
+          })}</div>
         </div>
       </section>
       <footer className="site-footer"><span>ÁNTHOS · FLORESCER</span><span>Uma palavra também pode ser semente.</span></footer>
