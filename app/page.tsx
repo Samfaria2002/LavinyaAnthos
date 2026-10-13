@@ -58,9 +58,10 @@ function HomeView({ onNavigate }: { onNavigate: (view: View) => void }) {
         <img src="/florescer-campo.jpg" alt="Campo florido em tons suaves, imagem da coleção Florescer" />
         <div className="hero-wash" />
         <div className="hero-content">
-          <p className="eyebrow">Exposição de TCC · Artes Visuais</p>
-          <h1 id="hero-title">FLORESCER</h1>
-          <p className="hero-subtitle">Beleza que nasce da espera.</p>
+          <p className="eyebrow mb-1">Exposição de TCC · Artes Visuais</p>
+          <h1 id="hero-title">Ánthos</h1>
+          <p className="eyebrow mt-1">Coleção FLORESCER</p>
+          {/* <p className="hero-subtitle">Beleza que nasce da espera.</p> */}
           <div className="hero-actions">
             <Button className="primary-cta" size="lg" onClick={() => onNavigate("presenca")}>
               Confirmar presença <ArrowRight aria-hidden="true" />
@@ -191,12 +192,12 @@ function RSVPView() {
   return (
     <section className="page-shell rsvp-page" aria-labelledby="rsvp-title">
       <div className="rsvp-aside">
-        <p className="eyebrow">17 · 10 · 2026</p>
+        <p className="eyebrow">06 · 11 · 2026</p>
         <h1 id="rsvp-title">Venha florescer conosco.</h1>
-        <p>Confirme sua presença para a exposição de TCC da artista Lavinya Chaves.</p>
+        {/* <p>Confirme sua presença para a exposição de TCC da artista Lavinya Chaves.</p> */}
         <div className="event-details">
-          <div><CalendarDays aria-hidden="true" /><span><strong>17 de outubro de 2026</strong><small>Horário em breve</small></span></div>
-          <div><MapPin aria-hidden="true" /><span><strong>Exposição de TCC</strong><small>Local em breve</small></span></div>
+          <div><CalendarDays aria-hidden="true" /><span><strong>06 de novembro de 2026</strong><small>A partir das 14:00</small></span></div>
+          <div><MapPin aria-hidden="true" /><span><strong>Exposição de TCC</strong><small>Estação Juventude - Avenida João César de Oliveira, 174</small></span></div>
         </div>
       </div>
 
