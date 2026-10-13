@@ -48,7 +48,6 @@ function Header({ view, onNavigate }: { view: View; onNavigate: (view: View) => 
         ))}
         <a href="/jardim-de-palavras">Jardim de palavras</a>
         <a href="/memorias">Memórias</a>
-        <a href="/admin">Admin</a>
       </nav>
     </header>
   );
