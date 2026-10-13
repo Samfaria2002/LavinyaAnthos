@@ -197,7 +197,7 @@ function RSVPView() {
         {/* <p>Confirme sua presença para a exposição de TCC da artista Lavinya Chaves.</p> */}
         <div className="event-details">
           <div><CalendarDays aria-hidden="true" /><span><strong>06 de novembro de 2026</strong><small>A partir das 14:00</small></span></div>
-          <div><MapPin aria-hidden="true" /><span><strong>Exposição de TCC</strong><small>Estação Juventude - Avenida João César de Oliveira, 174</small></span></div>
+          <div><MapPin aria-hidden="true" /><span><strong>Estação Juventude</strong><small>Avenida João César de Oliveira, 174</small></span></div>
         </div>
       </div>
 
