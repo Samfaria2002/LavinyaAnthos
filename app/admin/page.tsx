@@ -114,7 +114,7 @@ export default function AdminPage() {
     return <main className="site-root feature-page admin-page"><header className="feature-header"><Link href="/" className="feature-back"><ArrowLeft size={16} /> Voltar à exposição</Link><span className="feature-brand">ÁNTHOS <i>administração</i></span></header>
       <section className="admin-login-wrap"><div className="admin-login-mark"><Flower2 size={28} /></div><p className="eyebrow ink">ÁREA RESTRITA</p><h1>Bem-vinda,<br /><em>Lavinya.</em></h1><p>Entre para moderar as palavras do jardim e cuidar das memórias da exposição.</p>
         <form className="feature-form" onSubmit={login}><label htmlFor="admin-password">Senha administrativa</label><input id="admin-password" type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required /><button className="feature-submit" type="submit" disabled={busy}>{busy ? "Entrando..." : "Entrar no painel"}</button></form>
-        {notice && <p className="feature-status" role="status">{notice}</p>}<small className="privacy-note">Esta área é privada. A senha deve ser configurada nas variáveis de ambiente do servidor.</small>
+        {notice && <p className="feature-status" role="status">{notice}</p>}<small className="privacy-note">Amor, essa parte ainda n funciona kkkk Futuramente, se vc quiser que troca a senha, é só me pedir ok? </small>
       </section>
     </main>;
   }
