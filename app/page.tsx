@@ -72,9 +72,9 @@ function HomeView({ onNavigate }: { onNavigate: (view: View) => void }) {
           </div>
         </div>
         <div className="event-stamp" aria-label="Data da exposição">
-          <span>17</span>
+          <span>06</span>
           <div>
-            <strong>outubro</strong>
+            <strong>novembro</strong>
             <small>2026</small>
           </div>
         </div>
